@@ -12,14 +12,12 @@ class IoC {
     await dotenv.load();
     await GetStorage.init(kSave);
 
-    OpenAI.apiKey = dotenv.env['OPEN_AI_API_KEY']!;
-
     GetStorage(kSave).listenKey(
       kDarkMode,
       setThemeMode,
     );
 
-    Get.put(Model());
+    Get.put(Chad(dotenv.env['OPEN_AI_API_KEY']!));
   }
 }
 
