@@ -10,6 +10,7 @@ environment:
   sdk: ">=2.16.2 <3.0.0"
 
 dependencies:
+  dart_openai: ^1.9.1
   flutter:
     sdk: flutter
   get: ^4.6.5
