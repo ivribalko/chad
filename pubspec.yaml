@@ -1,0 +1,23 @@
+name: flutter_app_template
+description: Quick start template
+repository: https://github.com/ivribalko/flutter_app_template
+
+publish_to: none
+
+version: 0.1.0+1
+
+environment:
+  sdk: ">=2.16.2 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  get: ^4.6.1
+  get_storage: ^2.0.2
+
+dev_dependencies:
+  flutter_lints: ^1.0.0
+  rename: ^2.0.1
+
+flutter:
+  uses-material-design: true
