@@ -22,4 +22,6 @@ dev_dependencies:
   rename: ^2.1.1
 
 flutter:
+  assets:
+    - .env
   uses-material-design: true
