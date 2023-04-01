@@ -26,9 +26,9 @@ class HomePage extends StatelessWidget {
                         ]))
                     .cast<Widget>()
                     .toList()
-                      ..add(const Opacity(
-                        opacity: 0,
-                        child: TextField(maxLines: 5),
+                  ..add(const Opacity(
+                    opacity: 0,
+                    child: TextField(maxLines: ChadInput.kMaxLines),
                   )),
               ),
             ),

@@ -8,6 +8,8 @@ import '../common.dart';
 import 'lookup.dart';
 
 class ChadInput extends StatelessWidget {
+  static const int kMaxLines = 5;
+
   final _controller = TextEditingController();
   final _focusNode = FocusNode();
   final _index = RxInt(0);
@@ -23,7 +25,7 @@ class ChadInput extends StatelessWidget {
             autofocus: true,
             focusNode: _focusNode,
             minLines: 1,
-            maxLines: 5,
+            maxLines: kMaxLines,
             controller: _controller
               ..text = _indexText() ?? ''
               ..selection = _last(),
