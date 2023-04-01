@@ -19,21 +19,47 @@ class HomePage extends StatelessWidget {
               () => ListView(
                 padding: const EdgeInsets.all(kPadding),
                 physics: const ClampingScrollPhysics(),
-                children: list.map((e) => ChadMarkdown(e)).toList(),
+                children: list
+                    .map((e) => ChadMarkdown(e))
+                    .cast<Widget>()
+                    .toList()
+                  ..add(Opacity(
+                    opacity: 0,
+                    child: ChadInput(null),
+                  )),
               ),
             ),
             Column(
               children: [
                 const Spacer(),
-                TextField(
-                  onSubmitted: (x) => list.add(Lookup(x)),
-                ).paddingAll(kPadding),
+                ChadInput((x) => list.add(Lookup(x))),
               ],
             )
           ],
         ),
       ),
     );
+  }
+}
+
+class ChadInput extends StatelessWidget {
+  final void Function(dynamic x)? onSubmitted;
+  final _controller = TextEditingController();
+
+  ChadInput(this.onSubmitted);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      minLines: 1,
+      maxLines: 5,
+      controller: _controller,
+      textInputAction: TextInputAction.done,
+      onSubmitted: (x) {
+        onSubmitted?.call(x);
+        _controller.clear();
+      },
+    ).paddingAll(kPadding);
   }
 }
 
