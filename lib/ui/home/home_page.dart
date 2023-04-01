@@ -14,23 +14,33 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: ListView(
-          physics: const ClampingScrollPhysics(),
+        body: Stack(
           children: [
-            Obx(
-              () => MarkdownWidget(
-                data: back.join(),
-                shrinkWrap: true,
-                config: context.isDarkMode
-                    ? MarkdownConfig.darkConfig
-                    : MarkdownConfig.defaultConfig,
-              ),
+            ListView(
+              padding: const EdgeInsets.all(kPadding),
+              physics: const ClampingScrollPhysics(),
+              children: [
+                Obx(
+                  () => MarkdownWidget(
+                    data: back.join(),
+                    shrinkWrap: true,
+                    config: context.isDarkMode
+                        ? MarkdownConfig.darkConfig
+                        : MarkdownConfig.defaultConfig,
+                  ),
+                ),
+              ],
             ),
-            TextField(
-              onSubmitted: (x) => chad.ask(x).listen(back.add),
-            ),
+            Column(
+              children: [
+                const Spacer(),
+                TextField(
+                  onSubmitted: (x) => chad.ask(x).listen(back.add),
+                ).paddingAll(kPadding),
+              ],
+            )
           ],
-        ).paddingAll(kPadding),
+        ),
       ),
     );
   }
