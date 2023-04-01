@@ -23,9 +23,9 @@ class HomePage extends StatelessWidget {
                     .map((e) => ChadMarkdown(e))
                     .cast<Widget>()
                     .toList()
-                  ..add(Opacity(
-                    opacity: 0,
-                    child: ChadInput(null),
+                      ..add(const Opacity(
+                        opacity: 0,
+                        child: TextField(maxLines: 5),
                   )),
               ),
             ),
