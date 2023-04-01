@@ -45,12 +45,15 @@ class HomePage extends StatelessWidget {
 class ChadInput extends StatelessWidget {
   final void Function(dynamic x)? onSubmitted;
   final _controller = TextEditingController();
+  final _focusNode = FocusNode();
 
   ChadInput(this.onSubmitted);
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      autofocus: true,
+      focusNode: _focusNode,
       minLines: 1,
       maxLines: 5,
       controller: _controller,
@@ -58,6 +61,7 @@ class ChadInput extends StatelessWidget {
       onSubmitted: (x) {
         onSubmitted?.call(x);
         _controller.clear();
+        _focusNode.requestFocus();
       },
     ).paddingAll(kPadding);
   }
