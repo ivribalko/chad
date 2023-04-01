@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import 'chad_input.dart';
 import 'chad_markdown.dart';
+import 'google_button.dart';
 import 'lookup.dart';
 
 class HomePage extends StatelessWidget {
@@ -21,7 +22,14 @@ class HomePage extends StatelessWidget {
                 physics: const ClampingScrollPhysics(),
                 children: list
                     .map((e) => Column(children: [
-                          ChadMarkdown(e),
+                          Stack(
+                            children: [
+                              ChadMarkdown(e),
+                              Positioned(
+                                top: -5,
+                                right: -10,
+                                child: GoogleButton(e.input))
+                          ]),
                           const Divider(),
                         ]))
                     .cast<Widget>()
@@ -36,8 +44,7 @@ class HomePage extends StatelessWidget {
               children: [
                 const Spacer(),
                 ChadInput(),
-              ],
-            )
+            ])
           ],
         ),
       ),
