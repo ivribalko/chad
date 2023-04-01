@@ -5,7 +5,6 @@ import 'package:get_storage/get_storage.dart';
 
 import 'common.dart';
 import 'home/home_page.dart';
-import 'page/page_page.dart';
 import 'routes.dart';
 
 class App extends StatelessWidget {
@@ -20,7 +19,6 @@ class App extends StatelessWidget {
       themeMode: getThemeMode(save),
       getPages: [
         GetPage(name: Routes.home, page: () => HomePage()),
-        GetPage(name: Routes.page, page: () => PagePage()),
       ],
     );
   }
