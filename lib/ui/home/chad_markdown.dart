@@ -8,12 +8,14 @@ import 'lookup.dart';
 class ChadMarkdown extends StatelessWidget {
   final Lookup lookup;
 
-  const ChadMarkdown(this.lookup);
+  ChadMarkdown(this.lookup);
+
+  late String title = lookup.input.replaceAll(RegExp('^'), '>');
 
   @override
   Widget build(BuildContext context) {
     return Obx(() => MarkdownWidget(
-          data: "### ${lookup.input}\n\n${lookup.reply.join()}",
+          data: "$title\n\n${lookup.reply.join()}",
           shrinkWrap: true,
           config: context.isDarkMode
               ? MarkdownConfig.darkConfig
