@@ -16,7 +16,7 @@ class App extends StatelessWidget {
       title: 'Chad',
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
-      themeMode: getThemeMode(save),
+      themeMode: Get.isPlatformDarkMode ? ThemeMode.dark : ThemeMode.light,
       getPages: [
         GetPage(name: Routes.home, page: () => HomePage()),
       ],
