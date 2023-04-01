@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:markdown_widget/config/configs.dart';
 import 'package:markdown_widget/widget/all.dart';
 
-import '../../src/model.dart';
+import '../../src/chad.dart';
 
 class HomePage extends StatelessWidget {
   final list = RxList<Lookup>();

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import 'src/common.dart';
-import 'src/model.dart';
+import 'src/chad.dart';
 
 class IoC {
   static Future init() async {
