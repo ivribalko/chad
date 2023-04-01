@@ -20,7 +20,10 @@ class HomePage extends StatelessWidget {
                 padding: const EdgeInsets.all(kPadding),
                 physics: const ClampingScrollPhysics(),
                 children: list
-                    .map((e) => ChadMarkdown(e))
+                    .map((e) => Column(children: [
+                          ChadMarkdown(e),
+                          const Divider(),
+                        ]))
                     .cast<Widget>()
                     .toList()
                       ..add(const Opacity(
