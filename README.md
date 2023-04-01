@@ -1,45 +1,32 @@
-# Flutter template
+# Chad
 
-A Flutter template with sample architecture.
+OpenAI ChatGPT app.
 
-## 🙌 Contains
+## 🙌 Features
 
-- Some extensions.
-- Sample navigation.
-- Dark mode switcher.
+- ...
 
 ## 🤔 How to use
 
-- Click `Use this template` button on GitHub.
-- Clone the new repository.
-- Run inside repository:
+- Make a paid account on [Billing page](https://platform.openai.com/account/billing/overview)
+- Make a key on [API Keys page](https://platform.openai.com/account/api-keys)
+- `echo OPEN_AI_API_KEY=YOUR_KEY >> .env` into root folder
+- Get dependencies:
 
 ```bash
 flutter pub get
 ```
 
-- Customize app name:
+- Run:
 
 ```bash
-flutter pub run rename --appname "Flutter Template"
-```
-
-- Customize app id:
-
-```bash
-flutter pub run rename --bundleId com.ivribalko.flutter_app_template
+flutter run --profile
 ```
 
 ## 📦 Packages
 
-- [get](https://pub.dev/packages/get)
-- [get_storage](https://pub.dev/packages/get_storage)
-
----
-
-- [flutter_lints](https://pub.dev/packages/flutter_lints)
-- [rename](https://pub.dev/packages/rename)
+- ...
 
 ## 📚 Links
 
-<https://docs.flutter.dev/>
+<https://chat.openai.com/>
