@@ -7,7 +7,7 @@ import 'chad_markdown.dart';
 import 'lookup.dart';
 
 class HomePage extends StatelessWidget {
-  final list = RxList<Lookup>();
+  final list = Get.put(RxList<Lookup>());
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class HomePage extends StatelessWidget {
             Column(
               children: [
                 const Spacer(),
-                ChadInput((x) => list.add(Lookup(x))),
+                ChadInput(),
               ],
             )
           ],
