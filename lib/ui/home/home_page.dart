@@ -7,8 +7,7 @@ import 'package:markdown_widget/widget/all.dart';
 import '../../src/model.dart';
 
 class HomePage extends StatelessWidget {
-  final chad = Get.find<Chad>();
-  final back = RxList<String>();
+  final list = RxList<Lookup>();
 
   @override
   Widget build(BuildContext context) {
@@ -16,26 +15,18 @@ class HomePage extends StatelessWidget {
       child: Scaffold(
         body: Stack(
           children: [
-            ListView(
-              padding: const EdgeInsets.all(kPadding),
-              physics: const ClampingScrollPhysics(),
-              children: [
-                Obx(
-                  () => MarkdownWidget(
-                    data: back.join(),
-                    shrinkWrap: true,
-                    config: context.isDarkMode
-                        ? MarkdownConfig.darkConfig
-                        : MarkdownConfig.defaultConfig,
-                  ),
-                ),
-              ],
+            Obx(
+              () => ListView(
+                padding: const EdgeInsets.all(kPadding),
+                physics: const ClampingScrollPhysics(),
+                children: list.map((e) => ChadMarkdown(e)).toList(),
+              ),
             ),
             Column(
               children: [
                 const Spacer(),
                 TextField(
-                  onSubmitted: (x) => chad.ask(x).listen(back.add),
+                  onSubmitted: (x) => list.add(Lookup(x)),
                 ).paddingAll(kPadding),
               ],
             )
@@ -43,5 +34,31 @@ class HomePage extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class ChadMarkdown extends StatelessWidget {
+  final Lookup lookup;
+
+  const ChadMarkdown(this.lookup);
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() => MarkdownWidget(
+          data: "### ${lookup.input}\n\n${lookup.reply.join()}",
+          shrinkWrap: true,
+          config: context.isDarkMode
+              ? MarkdownConfig.darkConfig
+              : MarkdownConfig.defaultConfig,
+        ));
+  }
+}
+
+class Lookup {
+  final String input;
+  final reply = RxList<String>();
+
+  Lookup(this.input) {
+    Get.find<Chad>().ask(input).listen(reply.add);
   }
 }
