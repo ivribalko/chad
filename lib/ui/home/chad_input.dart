@@ -1,10 +1,10 @@
 import 'dart:math';
 
+import 'package:chad/ui/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import '../common.dart';
 import 'lookup.dart';
 
 class ChadInput extends StatelessWidget {

@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
-
-import '../../src/chad.dart';
+import 'package:chad/src/chad.dart';
 
 class Lookup {
   final String input;

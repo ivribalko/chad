@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_template/ui/common.dart';
+import 'package:chad/ui/common.dart';
 import 'package:get/get.dart';
 
 import 'chad_input.dart';
