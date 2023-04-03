@@ -15,6 +15,8 @@ class IoC {
       openAiApiUrl: dotenv.maybeGet('OPENAI_API_URL'),
     );
 
+    api.ask('be super concise');
+
     Get.put(api);
   }
 }
