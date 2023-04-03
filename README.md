@@ -10,7 +10,7 @@ OpenAI ChatGPT app.
 
 - Make a paid account on [Billing page](https://platform.openai.com/account/billing/overview)
 - Make a key on [API Keys page](https://platform.openai.com/account/api-keys)
-- `echo OPENAI_API_KEY=YOUR_KEY >> .env` into root folder
+- `echo OPENAI_API_KEY=YOUR_KEY >> env` into root folder
 - Get dependencies:
 
 ```bash

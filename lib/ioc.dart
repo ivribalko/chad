@@ -7,8 +7,8 @@ import 'src/chad.dart';
 
 class IoC {
   static Future init() async {
-    await dotenv.load();
     await GetStorage.init(kSave);
+    await dotenv.load(fileName: 'env');
 
     var api = Chad(
       dotenv.env['OPENAI_API_KEY']!,
