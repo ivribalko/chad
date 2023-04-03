@@ -3,7 +3,6 @@ import 'package:flutter_app_template/src/common.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-import 'common.dart';
 import 'home/home_page.dart';
 import 'routes.dart';
 
