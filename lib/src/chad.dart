@@ -1,8 +1,12 @@
 import 'package:dart_openai/openai.dart';
 
 class Chad {
-  Chad(String openAiApiKey) {
+  Chad(String openAiApiKey, {String? openAiApiUrl}) {
     OpenAI.apiKey = openAiApiKey;
+
+    if (openAiApiUrl != null) {
+      OpenAI.baseUrl = openAiApiUrl;
+    }
   }
 
   Stream<String> ask(String query) {

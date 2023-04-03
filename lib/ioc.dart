@@ -10,6 +10,11 @@ class IoC {
     await dotenv.load();
     await GetStorage.init(kSave);
 
-    Get.put(Chad(dotenv.env['OPEN_AI_API_KEY']!));
+    var api = Chad(
+      dotenv.env['OPENAI_API_KEY']!,
+      openAiApiUrl: dotenv.maybeGet('OPENAI_API_URL'),
+    );
+
+    Get.put(api);
   }
 }
