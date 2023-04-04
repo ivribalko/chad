@@ -10,13 +10,8 @@ class IoC {
     await GetStorage.init(kSave);
     await dotenv.load(fileName: 'env');
 
-    var api = Chad(
-      dotenv.env['OPENAI_API_KEY']!,
-      openAiApiUrl: dotenv.maybeGet('OPENAI_API_URL'),
-    );
-
+    var api = Chad(dotenv.env['OPENAI_API_KEY']!);
     api.ask('be super concise');
-
     Get.put(api);
   }
 }
