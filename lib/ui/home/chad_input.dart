@@ -34,8 +34,14 @@ class ChadInput extends StatelessWidget {
             onSubmitted: (i) {
               i = i.trim();
               _list.add(Lookup(i));
-              _focusNode.requestFocus();
               _index.value = _list.length;
+              // avoid virtual keyboards pop up
+              context
+                  .responsiveValue(
+                    desktop: _focusNode.requestFocus,
+                    mobile: () {},
+                  )
+                  .call();
             },
           ).paddingAll(kPadding),
         ));
