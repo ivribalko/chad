@@ -16,33 +16,29 @@ class HomePage extends StatelessWidget {
       child: Scaffold(
         body: Stack(
           children: [
-            Focus(
-              descendantsAreFocusable: false,
-              canRequestFocus: false,
-              child: Obx(
-                () => ListView(
-                  padding: const EdgeInsets.all(kPadding),
-                  physics: const ClampingScrollPhysics(),
-                  children: list
-                      .map((e) => Column(children: [
-                            Stack(children: [
-                              ChadMarkdown(e),
-                              Positioned(
-                                  top: -5,
-                                  right: -10,
-                                  child: GoogleButton(e.input))
-                            ]),
-                            const Divider(),
-                          ]))
-                      .cast<Widget>()
-                      .toList()
-                    ..add(const Opacity(
-                      opacity: 0,
-                      child: TextField(maxLines: ChadInput.kMaxLines),
-                    )),
-                ),
+            Obx(
+              () => ListView(
+                padding: const EdgeInsets.all(kPadding),
+                physics: const ClampingScrollPhysics(),
+                children: list
+                    .map((e) => Column(children: [
+                          Stack(children: [
+                            ChadMarkdown(e),
+                            Positioned(
+                                top: -5,
+                                right: -10,
+                                child: GoogleButton(e.input))
+                          ]),
+                          const Divider(),
+                        ]))
+                    .cast<Widget>()
+                    .toList()
+                  ..add(const Opacity(
+                    opacity: 0,
+                    child: TextField(maxLines: ChadInput.kMaxLines),
+                  )),
               ),
-            ),
+            ).unfocusable().noScrollBar(context),
             Column(children: [
               const Spacer(),
               ChadInput(),
