@@ -13,6 +13,7 @@ class ChadInput extends StatelessWidget {
   final _controller = TextEditingController();
   final _focusNode = FocusNode();
   final _index = RxInt(0);
+  final _focus = Get.find<RxBool>(tag: 'focus');
   final _list = Get.find<RxList<Lookup>>();
 
   @override
@@ -23,7 +24,7 @@ class ChadInput extends StatelessWidget {
         child: Obx(
           () => TextField(
             autofocus: true,
-            focusNode: _focusNode,
+            focusNode: _focusMagic(),
             minLines: 1,
             maxLines: kMaxLines,
             controller: _controller
@@ -65,5 +66,13 @@ class ChadInput extends StatelessWidget {
     } catch (e) {
       return null;
     }
+  }
+
+  FocusNode _focusMagic() {
+    if (_focus.value) {
+      _focusNode.requestFocus();
+    }
+    _focusNode.canRequestFocus = _focus.value;
+    return _focusNode;
   }
 }

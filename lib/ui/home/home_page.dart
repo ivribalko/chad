@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:chad/ui/common.dart';
+import 'package:chad/ui/watcher.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'chad_input.dart';
@@ -42,6 +43,7 @@ class HomePage extends StatelessWidget {
             Column(children: [
               const Spacer(),
               ChadInput(),
+              Watcher(),
             ])
           ],
         ),
