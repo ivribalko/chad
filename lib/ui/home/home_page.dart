@@ -1,5 +1,5 @@
 import 'package:chad/ui/common.dart';
-import 'package:chad/ui/watcher.dart';
+import 'package:chad/ui/watcher/watcher.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

@@ -1,6 +1,7 @@
-import 'dart:html';
+import 'watcher_stub.dart'
+    if (dart.library.io) 'watcher_io.dart'
+    if (dart.library.html) 'watcher_web.dart';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,34 +14,24 @@ class Watcher extends StatefulWidget {
 class _WatcherState extends State<Watcher> with WidgetsBindingObserver {
   final focus = Get.find<RxBool>(tag: 'focus');
 
+  void onFocus(e) {
+    didChangeAppLifecycleState(AppLifecycleState.resumed);
+  }
+
+  void onBlur(e) {
+    didChangeAppLifecycleState(AppLifecycleState.paused);
+  }
+
   @override
   void initState() {
     super.initState();
-    if (kIsWeb) {
-      window.addEventListener('focus', onFocus);
-      window.addEventListener('blur', onBlur);
-    } else {
-      WidgetsBinding.instance.addObserver(this);
-    }
+    watch(this);
   }
 
   @override
   void dispose() {
-    if (kIsWeb) {
-      window.removeEventListener('focus', onFocus);
-      window.removeEventListener('blur', onBlur);
-    } else {
-      WidgetsBinding.instance.removeObserver(this);
-    }
+    unwatch(this);
     super.dispose();
-  }
-
-  void onFocus(Event e) {
-    didChangeAppLifecycleState(AppLifecycleState.resumed);
-  }
-
-  void onBlur(Event e) {
-    didChangeAppLifecycleState(AppLifecycleState.paused);
   }
 
   @override
