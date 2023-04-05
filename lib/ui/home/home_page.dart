@@ -1,3 +1,4 @@
+import 'package:chad/src/lookup.dart';
 import 'package:chad/ui/common.dart';
 import 'package:chad/ui/watcher/watcher.dart';
 import 'package:flutter/material.dart';
@@ -6,10 +7,9 @@ import 'package:get/get.dart';
 import 'chad_input.dart';
 import 'chad_markdown.dart';
 import 'google_button.dart';
-import 'lookup.dart';
 
 class HomePage extends StatelessWidget {
-  final list = Get.put(RxList<Lookup>());
+  final list = Get.find<RxList<Lookup>>();
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class HomePage extends StatelessWidget {
                             Positioned(
                                 top: -5,
                                 right: -10,
-                                child: GoogleButton(e.input))
+                                child: GoogleButton(e.query))
                           ]),
                           const Divider(),
                         ]))

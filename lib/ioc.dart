@@ -9,11 +9,7 @@ class IoC {
   static Future init() async {
     await GetStorage.init(kSave);
     await dotenv.load(fileName: 'env');
-
     Get.put(true.obs, tag: 'focus');
-
-    var api = Chad(dotenv.env['OPENAI_API_KEY']!);
-    api.ask('be super concise');
-    Get.put(api);
+    Get.put(Chad(dotenv.env['OPENAI_API_KEY']!, 1000));
   }
 }

@@ -1,20 +1,62 @@
+import 'dart:math';
+
 import 'package:dart_openai/openai.dart';
+import 'package:get/get.dart';
+
+import 'lookup.dart';
 
 class Chad {
-  Chad(String openAiApiKey) {
+  final int _tokens;
+  final _list = Get.put(RxList<Lookup>());
+  final _words = RegExp("[\\w-]+");
+  final _chadness = [
+    OpenAIChatCompletionChoiceMessageModel(
+      content: 'be concise',
+      role: OpenAIChatMessageRole.system,
+    ),
+    OpenAIChatCompletionChoiceMessageModel(
+      content: 'do not apologize',
+      role: OpenAIChatMessageRole.system,
+    )
+  ];
+
+  Chad(String openAiApiKey, this._tokens) {
     OpenAI.apiKey = openAiApiKey;
   }
 
-  Stream<String> ask(String query) {
-    return OpenAI.instance.chat.createStream(
-      model: "gpt-3.5-turbo",
-      messages: [
-        OpenAIChatCompletionChoiceMessageModel(
-          content: query,
-          role: OpenAIChatMessageRole.user,
-        )
-        ])
+  void ask(String query) {
+    var lookup = Lookup(query);
+
+    _list.add(lookup);
+
+    var last = _list.reversed
+        .where((i) => i.chad != null)
+        .take(10)
+        .fold<List<OpenAIChatCompletionChoiceMessageModel>>(
+            [lookup.user],
+            (it, i) => it
+              ..add(i.chad!)
+              ..add(i.user));
+
+    var words = 0;
+
+    OpenAI.instance.chat
+        .createStream(
+            model: "gpt-3.5-turbo",
+            messages: (last..insertAll(min(last.length, 3), _chadness))
+                .takeWhile((i) => (words = words + wordCount(i)) <= _tokens)
+                .toList()
+                .reversed
+                .toList())
         .map((i) => i.choices.map((e) => e.delta.content).join())
-        .where((i) => i != "null");
+        .where((i) => i != "null")
+        .listen(
+          lookup.reply.add,
+          onDone: lookup.done,
+        );
+  }
+
+  int wordCount(OpenAIChatCompletionChoiceMessageModel i) {
+    return _words.allMatches(i.content).length;
   }
 }

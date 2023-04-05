@@ -1,11 +1,11 @@
 import 'dart:math';
 
+import 'package:chad/src/chad.dart';
+import 'package:chad/src/lookup.dart';
 import 'package:chad/ui/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-
-import 'lookup.dart';
 
 class ChadInput extends StatelessWidget {
   static const int kMaxLines = 5;
@@ -15,6 +15,7 @@ class ChadInput extends StatelessWidget {
   final _index = RxInt(0);
   final _focus = Get.find<RxBool>(tag: 'focus');
   final _list = Get.find<RxList<Lookup>>();
+  final _chad = Get.find<Chad>();
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +36,11 @@ class ChadInput extends StatelessWidget {
               textInputAction: TextInputAction.done,
               onSubmitted: (i) {
                 i = i.trim();
-                _list.add(Lookup(i));
-                _index.value = _list.length;
-                _focusOnRealKeyboard(context);
+                if (i.isNotEmpty) {
+                  _chad.ask(i);
+                  _index.value = _list.length;
+                  _focusOnRealKeyboard(context);
+                }
               },
             ).paddingAll(kPadding);
           },
@@ -79,7 +82,7 @@ class ChadInput extends StatelessWidget {
 
   String? _indexText() {
     try {
-      return _list[_index.value].input;
+      return _list[_index.value].query;
     } catch (e) {
       return null;
     }
