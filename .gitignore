@@ -9,6 +9,7 @@
 .firebase/
 .history
 .svn/
+.vscode/
 env
 
 # IntelliJ related
