@@ -22,29 +22,40 @@ class ChadInput extends StatelessWidget {
         focusNode: FocusNode(),
         onKey: _setIndex,
         child: Obx(
-          () => TextField(
-            autofocus: true,
-            focusNode: _focusMagic(),
-            minLines: 1,
-            maxLines: kMaxLines,
-            controller: _controller
-              ..text = _indexText() ?? ''
-              ..selection = _last(),
-            textInputAction: TextInputAction.done,
-            onSubmitted: (i) {
-              i = i.trim();
-              _list.add(Lookup(i));
-              _index.value = _list.length;
-              // avoid virtual keyboards pop up
-              context
-                  .responsiveValue(
-                    desktop: _focusNode.requestFocus,
-                    mobile: () {},
-                  )
-                  .call();
-            },
-          ).paddingAll(kPadding),
+          () {
+            _focusOnRealKeyboard(context);
+            return TextField(
+              autofocus: true,
+              focusNode: _focusNode,
+              minLines: 1,
+              maxLines: kMaxLines,
+              controller: _controller
+                ..text = _indexText() ?? ''
+                ..selection = _last(),
+              textInputAction: TextInputAction.done,
+              onSubmitted: (i) {
+                i = i.trim();
+                _list.add(Lookup(i));
+                _index.value = _list.length;
+                _focusOnRealKeyboard(context);
+              },
+            ).paddingAll(kPadding);
+          },
         ));
+  }
+
+  void _focusOnRealKeyboard(BuildContext context) {
+    // hide cursor when app is out of focus
+    _focusNode.canRequestFocus = _focus.isTrue;
+
+    // one strange way but is there better
+    // probably not because web is busted
+    context
+        .responsiveValue(
+          desktop: _focusNode.requestFocus,
+          mobile: () {},
+        )
+        .call();
   }
 
   void _setIndex(i) {
@@ -72,13 +83,5 @@ class ChadInput extends StatelessWidget {
     } catch (e) {
       return null;
     }
-  }
-
-  FocusNode _focusMagic() {
-    if (_focus.value) {
-      _focusNode.requestFocus();
-    }
-    _focusNode.canRequestFocus = _focus.value;
-    return _focusNode;
   }
 }
