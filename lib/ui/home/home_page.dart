@@ -39,7 +39,7 @@ class HomePage extends StatelessWidget {
                     child: TextField(maxLines: ChadInput.kMaxLines),
                   )),
               ),
-            ).unfocusable().noScrollBar(context),
+            ).noScrollBar(context),
             Column(children: [
               const Spacer(),
               ChadInput(),
