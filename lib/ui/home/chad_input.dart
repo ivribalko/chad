@@ -12,6 +12,7 @@ class ChadInput extends StatelessWidget {
 
   final _controller = TextEditingController();
   final _focusNode = FocusNode();
+  final _scroll = Get.find<ScrollController>();
   final _index = RxInt(0);
   final _focus = Get.find<RxBool>(tag: 'focus');
   final _list = Get.find<RxList<Lookup>>();
@@ -44,6 +45,7 @@ class ChadInput extends StatelessWidget {
                     _chad.ask(i);
                     _index.value = _list.length;
                     _focusOnRealKeyboard(context);
+                    _scroll.jumpTo(_scroll.position.maxScrollExtent);
                   }
                 },
               ).paddingOnly(

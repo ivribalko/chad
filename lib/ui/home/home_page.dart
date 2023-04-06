@@ -10,6 +10,7 @@ import 'google_button.dart';
 
 class HomePage extends StatelessWidget {
   final list = Get.find<RxList<Lookup>>();
+  final scroll = Get.put(ScrollController());
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +22,7 @@ class HomePage extends StatelessWidget {
               () => ListView(
                 padding: const EdgeInsets.all(kPadding),
                 physics: const ClampingScrollPhysics(),
+                controller: scroll,
                 children: list
                     .map((e) => Column(children: [
                           Stack(children: [
