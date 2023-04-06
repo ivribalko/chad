@@ -25,24 +25,33 @@ class ChadInput extends StatelessWidget {
         child: Obx(
           () {
             _focusOnRealKeyboard(context);
-            return TextField(
-              autofocus: true,
-              focusNode: _focusNode,
-              minLines: 1,
-              maxLines: kMaxLines,
-              controller: _controller
-                ..text = _indexText() ?? ''
-                ..selection = _last(),
-              textInputAction: TextInputAction.done,
-              onSubmitted: (i) {
-                i = i.trim();
-                if (i.isNotEmpty) {
-                  _chad.ask(i);
-                  _index.value = _list.length;
-                  _focusOnRealKeyboard(context);
-                }
-              },
-            ).paddingAll(kPadding);
+            return Container(
+              decoration: BoxDecoration(
+                color: context.theme.dialogBackgroundColor,
+              ),
+              child: TextField(
+                autofocus: true,
+                focusNode: _focusNode,
+                minLines: 1,
+                maxLines: kMaxLines,
+                controller: _controller
+                  ..text = _indexText() ?? ''
+                  ..selection = _last(),
+                textInputAction: TextInputAction.done,
+                onSubmitted: (i) {
+                  i = i.trim();
+                  if (i.isNotEmpty) {
+                    _chad.ask(i);
+                    _index.value = _list.length;
+                    _focusOnRealKeyboard(context);
+                  }
+                },
+              ).paddingOnly(
+                left: kPadding,
+                right: kPadding,
+                bottom: kPadding,
+              ),
+            );
           },
         ));
   }
