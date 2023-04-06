@@ -8,8 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class ChadInput extends StatelessWidget {
-  static const int kMaxLines = 5;
-
   final _controller = TextEditingController();
   final _focusNode = FocusNode();
   final _scroll = Get.find<ScrollController>();
@@ -34,7 +32,7 @@ class ChadInput extends StatelessWidget {
                 autofocus: true,
                 focusNode: _focusNode,
                 minLines: 1,
-                maxLines: kMaxLines,
+                maxLines: 5,
                 controller: _controller
                   ..text = _indexText() ?? ''
                   ..selection = _last(),

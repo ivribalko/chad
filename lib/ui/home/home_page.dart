@@ -36,9 +36,9 @@ class HomePage extends StatelessWidget {
                         ]))
                     .cast<Widget>()
                     .toList()
-                  ..add(const Opacity(
+                  ..add(Opacity(
                     opacity: 0,
-                    child: TextField(maxLines: ChadInput.kMaxLines),
+                    child: Container(height: context.height - 1.5 * kPadding),
                   )),
               ),
             ).noScrollBar(context),
