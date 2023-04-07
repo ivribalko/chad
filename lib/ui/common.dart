@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 const Duration kDuration = Duration(milliseconds: 400);
 const double kPadding = 20.0;
 const double kBetween = 10.0;
+const double kSize = 17.0;
 
 class CommonFutureBuilder<T> extends StatelessWidget {
   const CommonFutureBuilder({

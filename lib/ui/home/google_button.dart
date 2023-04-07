@@ -1,3 +1,4 @@
+import 'package:chad/ui/common.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -13,7 +14,7 @@ class GoogleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      iconSize: 20,
+      iconSize: kSize,
       color: context.theme.hintColor,
       hoverColor: Colors.transparent,
       highlightColor: Colors.transparent,

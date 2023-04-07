@@ -41,7 +41,7 @@ class ChadInput extends StatelessWidget {
                 decoration: InputDecoration(
                     suffixIcon: _current.value.isNotEmpty
                         ? IconButton(
-                            icon: const Icon(Icons.clear),
+                            icon: const Icon(Icons.clear, size: kSize),
                             onPressed: () => _current.value = "",
                           )
                         : null),
