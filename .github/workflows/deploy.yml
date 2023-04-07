@@ -24,3 +24,8 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CHAD_382603 }}'
           projectId: chad-382603
           channelId: live
+      - run: flutter build apk
+      - uses: actions/upload-artifact@v3
+        with:
+          name: app-release.apk
+          path: build/app/outputs/flutter-apk/app-release.apk
