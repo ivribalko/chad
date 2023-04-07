@@ -20,12 +20,12 @@ class ChadInput extends StatelessWidget {
   final _list = Get.find<RxList<Lookup>>();
   final _chad = Get.find<Chad>();
 
+  late final _focusNodeFocus = _focusNode.hasFocus.obs;
+
   @override
   Widget build(BuildContext context) {
-    _controller.addListener(() {
-      if (_index.value == _list.length) {
-        _current.value = _controller.text;
-      }
+    _focusNode.addListener(() {
+      _focusNodeFocus.value = _focusNode.hasFocus;
     });
     return RawKeyboardListener(
         focusNode: FocusNode(),
@@ -34,19 +34,30 @@ class ChadInput extends StatelessWidget {
           () {
             // hide cursor when app is out of focus
             _focusNode.canRequestFocus = _focus.isTrue;
-            return Container(
-              decoration: BoxDecoration(
-                color: context.theme.dialogBackgroundColor,
-              ),
+            return AnimatedContainer(
+              decoration: colorizeBy(context),
+              duration: kDuration,
               child: TextField(
+                decoration: InputDecoration(
+                    suffixIcon: _current.value.isNotEmpty
+                        ? IconButton(
+                            icon: const Icon(Icons.clear),
+                            onPressed: () => _current.value = "",
+                          )
+                        : null),
                 autofocus: true,
                 focusNode: _focusNode,
                 minLines: 1,
                 maxLines: 5,
                 controller: _controller
-                  ..text = _indexText() ?? ''
+                  ..text = _indexText()
                   ..selection = _last(),
                 textInputAction: TextInputAction.done,
+                onChanged: (i) {
+                  if (_index.value == _list.length) {
+                    _current.value = i;
+                  }
+                },
                 onSubmitted: (i) {
                   _focusIfRealKeyboard(context);
                   i = i.trim();
@@ -65,6 +76,17 @@ class ChadInput extends StatelessWidget {
             );
           },
         ));
+  }
+
+  BoxDecoration colorizeBy(BuildContext context) {
+    return BoxDecoration(
+        color: context.theme.dialogBackgroundColor.withAlpha(
+            _focusNodeFocus.isTrue || _current.value.isNotEmpty ? 255 : 0));
+  }
+
+  Color itsColor(BuildContext context) {
+    return context.theme.dialogBackgroundColor.withAlpha(
+        _focusNodeFocus.isTrue || _current.value.isNotEmpty ? 255 : 0);
   }
 
   void _focusIfRealKeyboard(BuildContext context) {
