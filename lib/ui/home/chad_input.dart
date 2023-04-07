@@ -27,6 +27,21 @@ class ChadInput extends StatelessWidget {
     _focusNode.addListener(() {
       _focusNodeFocus.value = _focusNode.hasFocus;
     });
+    _controller.addListener(() {
+      // fix (multiline text field + submit on enter)'s bug
+      // that randomly adds new lines e.g. when sending on
+      // a wide screen which is considered a 'desktop'
+      // which is considered a real keyboard
+      if (_controller.text == '\n') {
+        _controller.clear();
+      } else {
+        if (_index.value == _list.length) {
+          if (_current.value != _controller.text) {
+            _current.value = _controller.text;
+          }
+        }
+      }
+    });
     return RawKeyboardListener(
         focusNode: FocusNode(),
         onKey: _setIndex,
@@ -53,17 +68,12 @@ class ChadInput extends StatelessWidget {
                   ..text = _indexText()
                   ..selection = _last(),
                 textInputAction: TextInputAction.done,
-                onChanged: (i) {
-                  if (_index.value == _list.length) {
-                    _current.value = i;
-                  }
-                },
                 onSubmitted: (i) {
                   _focusIfRealKeyboard(context);
                   i = i.trim();
                   if (i.isNotEmpty) {
                     _chad.ask(i);
-                    _current.value = "";
+                    _controller.clear();
                     _index.value = _list.length;
                     _scroll.jumpTo(_scroll.position.maxScrollExtent);
                   }
