@@ -8,6 +8,10 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class ChadInput extends StatelessWidget {
+  final _current = Get.isRegistered<RxString>()
+      ? Get.find<RxString>()
+      : Get.put(RxString(""));
+
   final _controller = TextEditingController();
   final _focusNode = FocusNode();
   final _scroll = Get.find<ScrollController>();
@@ -18,12 +22,18 @@ class ChadInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _controller.addListener(() {
+      if (_index.value == _list.length) {
+        _current.value = _controller.text;
+      }
+    });
     return RawKeyboardListener(
         focusNode: FocusNode(),
         onKey: _setIndex,
         child: Obx(
           () {
-            _focusOnRealKeyboard(context);
+            // hide cursor when app is out of focus
+            _focusNode.canRequestFocus = _focus.isTrue;
             return Container(
               decoration: BoxDecoration(
                 color: context.theme.dialogBackgroundColor,
@@ -38,11 +48,12 @@ class ChadInput extends StatelessWidget {
                   ..selection = _last(),
                 textInputAction: TextInputAction.done,
                 onSubmitted: (i) {
+                  _focusIfRealKeyboard(context);
                   i = i.trim();
                   if (i.isNotEmpty) {
                     _chad.ask(i);
+                    _current.value = "";
                     _index.value = _list.length;
-                    _focusOnRealKeyboard(context);
                     _scroll.jumpTo(_scroll.position.maxScrollExtent);
                   }
                 },
@@ -56,10 +67,7 @@ class ChadInput extends StatelessWidget {
         ));
   }
 
-  void _focusOnRealKeyboard(BuildContext context) {
-    // hide cursor when app is out of focus
-    _focusNode.canRequestFocus = _focus.isTrue;
-
+  void _focusIfRealKeyboard(BuildContext context) {
     // one strange way but is there better
     // probably not because web is busted
     context
@@ -89,11 +97,11 @@ class ChadInput extends StatelessWidget {
     );
   }
 
-  String? _indexText() {
+  String _indexText() {
     try {
       return _list[_index.value].query;
     } catch (e) {
-      return null;
+      return _current.value;
     }
   }
 }
