@@ -14,9 +14,10 @@ class ChadInput extends StatefulWidget {
 }
 
 class _ChadInputState extends State<ChadInput> {
+  final appFocus = Get.find<RxBool>(tag: 'focus');
   final controller = TextEditingController();
-  final focusNode = FocusNode();
-  final focusNodeKB = FocusNode();
+  final inputNode = FocusNode();
+  final keyboardNode = FocusNode()..canRequestFocus = false;
   final index = RxInt(0);
   final chad = Get.find<Chad>();
 
@@ -36,13 +37,29 @@ class _ChadInputState extends State<ChadInput> {
         );
       });
     });
+    appFocus.stream.takeWhile((v) => mounted).listen((event) {
+      setState(() async {
+        if (event) {
+          inputNode.canRequestFocus = true;
+          if (isMobile) {
+            // android doesn't open keyboard unless there's a delay
+            await Future.delayed(50.milliseconds);
+          }
+          inputNode.requestFocus();
+          controller.selection = selection ?? controller.selection;
+        } else {
+          selection = controller.selection;
+          inputNode.canRequestFocus = false;
+        }
+      });
+    });
   }
 
   @override
   void dispose() {
     controller.dispose();
-    focusNode.dispose();
-    focusNodeKB.dispose();
+    inputNode.dispose();
+    keyboardNode.dispose();
     super.dispose();
   }
 
@@ -50,10 +67,10 @@ class _ChadInputState extends State<ChadInput> {
   Widget build(BuildContext context) {
     return RawKeyboardListener(
       onKey: setIndex,
-      focusNode: focusNodeKB,
+      focusNode: keyboardNode,
       child: TextField(
         autofocus: true,
-        focusNode: focusNode,
+        focusNode: inputNode,
         controller: controller
           ..text = getText()
           ..selection = selection ?? controller.selection,
@@ -68,7 +85,7 @@ class _ChadInputState extends State<ChadInput> {
           selection = null;
           controller.clear();
           if (isNotMobile) {
-            focusNode.requestFocus();
+            inputNode.requestFocus();
           }
           v = v.trim();
           if (v.isNotEmpty) {
@@ -79,6 +96,8 @@ class _ChadInputState extends State<ChadInput> {
       ).paddingAll(kPadding),
     );
   }
+
+  bool get isMobile => !isNotMobile;
 
   bool get isNotMobile => kIsWeb || (!Platform.isAndroid && !Platform.isIOS);
 
