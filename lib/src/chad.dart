@@ -6,8 +6,9 @@ import 'package:get/get.dart';
 import 'lookup.dart';
 
 class Chad {
+  final list = Get.put(RxList<Lookup>());
+
   final int _tokens;
-  final _list = Get.put(RxList<Lookup>());
   final _words = RegExp("[\\w-]+");
   final _chadness = [
     OpenAIChatCompletionChoiceMessageModel(
@@ -27,9 +28,9 @@ class Chad {
   void ask(String query) {
     var lookup = Lookup(query);
 
-    _list.add(lookup);
+    list.add(lookup);
 
-    var last = _list.reversed
+    var last = list.reversed
         .where((i) => i.chad != null)
         .take(10)
         .fold<List<OpenAIChatCompletionChoiceMessageModel>>(
