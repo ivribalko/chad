@@ -53,6 +53,7 @@ class _ChadInputState extends State<ChadInput> {
         }
       });
     });
+    inputNode.addListener(() => setState(() {}));
   }
 
   @override
@@ -93,7 +94,23 @@ class _ChadInputState extends State<ChadInput> {
             index.value = chad.list.length;
           }
         },
-      ).paddingAll(kPadding),
+      )
+          .paddingOnly(
+            left: kPadding,
+            right: kPadding,
+            bottom: kPadding,
+          )
+          .apply(
+            (v) => AnimatedContainer(
+              decoration: BoxDecoration(
+                color: context.theme.dialogBackgroundColor.withAlpha(
+                  inputNode.hasFocus || controller.text.isNotEmpty ? 255 : 0,
+                ),
+              ),
+              duration: kDuration,
+              child: v,
+            ),
+          ),
     );
   }
 

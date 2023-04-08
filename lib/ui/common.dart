@@ -36,6 +36,10 @@ class CommonFutureBuilder<T> extends StatelessWidget {
 }
 
 extension WidgetExtensions on Widget {
+  Widget apply(Function(Widget) function) {
+    return function(this);
+  }
+
   Widget unfocusable() {
     return Focus(
       descendantsAreFocusable: false,
