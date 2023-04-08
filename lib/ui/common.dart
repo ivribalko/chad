@@ -36,22 +36,7 @@ class CommonFutureBuilder<T> extends StatelessWidget {
 }
 
 extension WidgetExtensions on Widget {
-  Widget apply(Function(Widget) function) {
+  Widget apply(Widget Function(Widget) function) {
     return function(this);
-  }
-
-  Widget unfocusable() {
-    return Focus(
-      descendantsAreFocusable: false,
-      canRequestFocus: false,
-      child: this,
-    );
-  }
-
-  Widget noScrollBar(BuildContext context) {
-    return ScrollConfiguration(
-      behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-      child: this,
-    );
   }
 }

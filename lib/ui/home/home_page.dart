@@ -41,7 +41,13 @@ class HomePage extends StatelessWidget {
                     child: Container(height: context.height - 1.5 * kPadding),
                   )),
               ),
-            ).noScrollBar(context),
+            ).apply(
+              (v) => ScrollConfiguration(
+                behavior:
+                    ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                child: v,
+              ),
+            ),
             Column(children: [
               const Spacer(),
               ChadInput(),
