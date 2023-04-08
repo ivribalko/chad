@@ -1,16 +1,29 @@
-import 'package:chad/src/lookup.dart';
+import 'package:chad/src/chad.dart';
 import 'package:chad/ui/common.dart';
 import 'package:chad/ui/watcher/watcher.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import 'chad_input.dart';
 import 'chad_markdown.dart';
 import 'google_button.dart';
 
 class HomePage extends StatelessWidget {
-  final list = Get.find<RxList<Lookup>>();
-  final scroll = Get.put(ScrollController());
+  final list = Get.find<Chad>().list;
+
+  HomePage() {
+    if (!Get.isRegistered<ItemScrollController>()) {
+      final scroll = Get.put(ItemScrollController());
+      list.listen((_) {
+        scroll.scrollTo(
+          index: list.length - 1,
+          duration: kDuration,
+          curve: Curves.easeOut,
+        );
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,27 +32,32 @@ class HomePage extends StatelessWidget {
         body: Stack(
           children: [
             Obx(
-              () => ListView(
+              () => ScrollablePositionedList.builder(
                 padding: const EdgeInsets.all(kPadding),
                 physics: const ClampingScrollPhysics(),
-                controller: scroll,
-                children: list
-                    .map((e) => Column(children: [
+                itemScrollController: Get.find<ItemScrollController>(),
+                itemCount: list.length + 1,
+                itemBuilder: (BuildContext context, int index) {
+                  return index == list.length
+                      ? Opacity(
+                          opacity: 0,
+                          child: Container(
+                              height: context.height -
+                                  context.mediaQueryPadding.top -
+                                  context.mediaQueryPadding.bottom -
+                                  kPadding),
+                        )
+                      : Column(children: [
                           Stack(children: [
-                            ChadMarkdown(e),
+                            ChadMarkdown(list[index]),
                             Positioned(
                                 top: -5,
                                 right: -10,
-                                child: GoogleButton(e.query))
+                                child: GoogleButton(list[index].query))
                           ]),
                           const Divider(),
-                        ]))
-                    .cast<Widget>()
-                    .toList()
-                  ..add(Opacity(
-                    opacity: 0,
-                    child: Container(height: context.height - 1.5 * kPadding),
-                  )),
+                        ]);
+                },
               ),
             ).apply(
               (v) => ScrollConfiguration(

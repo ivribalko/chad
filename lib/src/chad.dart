@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'lookup.dart';
 
 class Chad {
-  final list = Get.put(RxList<Lookup>());
+  final list = RxList<Lookup>();
 
   final int _tokens;
   final _words = RegExp("[\\w-]+");
