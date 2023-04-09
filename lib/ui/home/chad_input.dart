@@ -1,9 +1,7 @@
-import 'dart:io';
 import 'dart:math';
 
 import 'package:chad/src/chad.dart';
 import 'package:chad/ui/common.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -118,10 +116,6 @@ class _ChadInputState extends State<ChadInput> {
           ),
     );
   }
-
-  bool get isMobile => !isNotMobile;
-
-  bool get isNotMobile => kIsWeb || (!Platform.isAndroid && !Platform.isIOS);
 
   String getText() {
     if (editingNew) {

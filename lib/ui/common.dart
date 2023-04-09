@@ -1,9 +1,16 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 const Duration kDuration = Duration(milliseconds: 400);
-const double kPadding = 20.0;
-const double kBetween = 10.0;
 const double kSize = 17.0;
+
+double get kPadding => isMobile ? 10.0 : 20.0;
+
+bool get isMobile => !isNotMobile;
+
+bool get isNotMobile => kIsWeb || (!Platform.isAndroid && !Platform.isIOS);
 
 class CommonFutureBuilder<T> extends StatelessWidget {
   const CommonFutureBuilder({

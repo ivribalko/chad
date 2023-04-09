@@ -33,7 +33,7 @@ class HomePage extends StatelessWidget {
           children: [
             Obx(
               () => ScrollablePositionedList.builder(
-                padding: const EdgeInsets.all(kPadding),
+                padding: EdgeInsets.all(kPadding),
                 physics: const ClampingScrollPhysics(),
                 itemScrollController: Get.find<ItemScrollController>(),
                 itemCount: list.length + 1,
