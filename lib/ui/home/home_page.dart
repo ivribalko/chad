@@ -1,5 +1,6 @@
 import 'package:chad/src/chad.dart';
 import 'package:chad/ui/common.dart';
+import 'package:chad/ui/home/edit_button.dart';
 import 'package:chad/ui/watcher/watcher.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -51,9 +52,14 @@ class HomePage extends StatelessWidget {
                           Stack(children: [
                             ChadMarkdown(list[index]),
                             Positioned(
-                                top: -5,
-                                right: -10,
-                                child: GoogleButton(list[index].query))
+                                top: -8,
+                                right: 0,
+                                child: Row(
+                                  children: [
+                                    EditButton(index),
+                                    GoogleButton(list[index].query),
+                                  ],
+                                ))
                           ]),
                           const Divider(),
                         ]);

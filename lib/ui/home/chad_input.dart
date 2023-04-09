@@ -8,10 +8,10 @@ import 'package:get/get.dart';
 
 class ChadInput extends StatefulWidget {
   @override
-  State<ChadInput> createState() => _ChadInputState();
+  State<ChadInput> createState() => ChadInputState();
 }
 
-class _ChadInputState extends State<ChadInput> {
+class ChadInputState extends State<ChadInput> {
   final appFocus = Get.find<RxBool>(tag: 'focus');
   final controller = TextEditingController();
   final inputNode = FocusNode();
@@ -26,14 +26,7 @@ class _ChadInputState extends State<ChadInput> {
   void initState() {
     super.initState();
     index.stream.takeWhile((v) => mounted).listen((event) {
-      setState(() {
-        controller.text = getText();
-        // setting controller.selection doesn't seem to be enough here
-        // still need to set it on the controller inside build function
-        controller.selection = selection = TextSelection.fromPosition(
-          TextPosition(offset: controller.text.length),
-        );
-      });
+      setState(() => setText(getText()));
     });
     appFocus.stream.takeWhile((v) => mounted).listen((event) {
       setState(() {
@@ -49,6 +42,7 @@ class _ChadInputState extends State<ChadInput> {
     });
     inputNode.addListener(() => setState(() {}));
     focusInput();
+    Get.put(this);
   }
 
   /// focus input and open virtual keyboard
@@ -123,6 +117,15 @@ class _ChadInputState extends State<ChadInput> {
     } else {
       return chad.list[index.value].query;
     }
+  }
+
+  void setText(String text) {
+    controller.text = text;
+    // setting controller.selection doesn't seem to be enough here
+    // still need to set it on the controller inside build function
+    controller.selection = selection = TextSelection.fromPosition(
+      TextPosition(offset: controller.text.length),
+    );
   }
 
   bool get editingNew => index.value == chad.list.length;

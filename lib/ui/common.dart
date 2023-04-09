@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 const Duration kDuration = Duration(milliseconds: 400);
-const double kSize = 17.0;
 
 double get kPadding => isMobile ? 10.0 : 20.0;
 
