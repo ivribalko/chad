@@ -10,16 +10,16 @@ class Chad {
 
   final int _tokens;
   final _words = RegExp("[\\w-]+");
-  final _chadness = [
-    OpenAIChatCompletionChoiceMessageModel(
-      content: 'be concise',
+  final _custom = [
+    'be concise',
+    'do not apologize',
+    'assign d to mean define',
+  ].map(
+    (e) => OpenAIChatCompletionChoiceMessageModel(
+      content: e,
       role: OpenAIChatMessageRole.system,
     ),
-    OpenAIChatCompletionChoiceMessageModel(
-      content: 'do not apologize',
-      role: OpenAIChatMessageRole.system,
-    )
-  ];
+  );
 
   Chad(String openAiApiKey, this._tokens) {
     OpenAI.apiKey = openAiApiKey;
@@ -44,7 +44,7 @@ class Chad {
     OpenAI.instance.chat
         .createStream(
             model: "gpt-3.5-turbo",
-            messages: (last..insertAll(min(last.length, 3), _chadness))
+            messages: (last..insertAll(min(last.length, 3), _custom))
                 .takeWhile((i) => (words = words + wordCount(i)) <= _tokens)
                 .toList()
                 .reversed
