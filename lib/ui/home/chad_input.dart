@@ -38,14 +38,10 @@ class _ChadInputState extends State<ChadInput> {
       });
     });
     appFocus.stream.takeWhile((v) => mounted).listen((event) {
-      setState(() async {
+      setState(() {
         if (event) {
           inputNode.canRequestFocus = true;
-          if (isMobile) {
-            // android doesn't open keyboard unless there's a delay
-            await Future.delayed(50.milliseconds);
-          }
-          inputNode.requestFocus();
+          focusInput();
           controller.selection = selection ?? controller.selection;
         } else {
           selection = controller.selection;
@@ -54,6 +50,16 @@ class _ChadInputState extends State<ChadInput> {
       });
     });
     inputNode.addListener(() => setState(() {}));
+    focusInput();
+  }
+
+  /// focus input and open virtual keyboard
+  void focusInput() async {
+    if (isMobile) {
+      // android doesn't open keyboard unless there's a delay
+      await Future.delayed(100.milliseconds);
+    }
+    inputNode.requestFocus();
   }
 
   @override
@@ -70,7 +76,6 @@ class _ChadInputState extends State<ChadInput> {
       onKey: setIndex,
       focusNode: keyboardNode,
       child: TextField(
-        autofocus: true,
         focusNode: inputNode,
         controller: controller
           ..text = getText()
